@@ -1,40 +1,39 @@
 version: '3.7'
 services:
 
-  bbs-go-mysql:
+  itwork-bbs365-mysql:
     image: 'mysql:5.7'
-    container_name: bbs-go-mysql
+    container_name: itwork-bbs365-mysql
     environment:
       MYSQL_ROOT_PASSWORD: '123456'
-      # MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     ports:
       - 3306:3306
     volumes:
-      - '.docker-compose/mysql/db/conf.d:/etc/mysql/conf.d'
-      - '.docker-compose/mysql/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
+      - './database-inited/mysql/db/conf.d:/etc/mysql/conf.d'
+      - './database-inited/mysql/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
 
-  bbs-go-server:
-    image: mlogclub/bbs-go-server
-    container_name: bbs-go-server
+  itwork-bbs365-server:
+    image: mlogclub/itwork-bbs365-server
+    container_name: itwork-bbs365-server
     ports:
       - 8082:8082
     depends_on:
-      - bbs-go-mysql
+      - itwork-bbs365-mysql
     build:
       target: application
       context: server
     restart: on-failure
     volumes:
-      - './data:/data/'
+      - './databases/data:/data/'
 
-  bbs-go-site:
-    image: mlogclub/bbs-go-site
-    container_name: bbs-go-site
+  itwork-bbs365-site:
+    image: mlogclub/itwork-bbs365-site
+    container_name: itwork-bbs365-site
     ports:
       - 3000:3000
     build:
       target: application
       context: site
     depends_on:
-      - bbs-go-server
+      - itwork-bbs365-server
     restart: on-failure

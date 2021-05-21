@@ -10,7 +10,6 @@ RUN apt-get -qq update && \
       locales \
     && rm -rf /var/lib/apt/lists/*
 
-# Set locale: https://daten-und-bass.io/blog/fixing-missing-locale-setting-in-ubuntu-docker-image/
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend noninteractive locales && \
     update-locale LANG=en_US.UTF-8

@@ -24,7 +24,7 @@ RUN GOPROXY="https://goproxy.cn" go mod download
 
 COPY . .
 
-RUN go build -o bbs-go-server
+RUN go build -o itwork-bbs365-server
 
 # application stage
 FROM debian:stretch-slim as application
@@ -42,8 +42,8 @@ RUN apt-get -qq update \
 ENV TZ=Asia/Shanghai
 ENV ROOT_DIR=/app
 
-COPY --from=builder /app/bbs-go-server .
-COPY --from=builder /app/bbs-go.docker.yaml bbs-go.yaml
+COPY --from=builder /app/itwork-bbs365-server .
+COPY --from=builder /app/itwork-bbs365.docker.yaml itwork-bbs365.yaml
 COPY --from=builder /app/start.sh start.sh
 
 RUN chmod +x start.sh
